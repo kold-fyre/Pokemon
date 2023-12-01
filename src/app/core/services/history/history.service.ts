@@ -13,7 +13,7 @@ export class HistoryService {
 
 
   // update routes history
-  addToHistory( data: any ) {
+  pushToHistory( data: { url: string; img: string } ) {
     firstValueFrom(
       this._historyObs
     ).then((res) => {

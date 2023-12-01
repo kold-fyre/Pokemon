@@ -7,22 +7,17 @@ export class HelperService {
 
   constructor() { }
 
-
   toJSON(s: string): any {
     return JSON.parse(s);
   }
 
-
-  extractImages(data: any) {
+  extractImages(data: any): string[] {
     const imageUrls: any[] = [];
 
     function traverse(obj: any) {
       for (const key in obj) {
-        if (typeof obj[key] === 'string' && obj[key].startsWith('https://')) {
-          imageUrls.push(obj[key]);
-        } else if (typeof obj[key] === 'object' && obj[key] !== null) {
-          traverse(obj[key]);
-        }
+        if (typeof obj[key] === 'string' && obj[key].startsWith('https://')) imageUrls.push(obj[key]);
+        else if (typeof obj[key] === 'object' && obj[key] !== null) traverse(obj[key]);
       }
     }
 
@@ -30,7 +25,6 @@ export class HelperService {
     return imageUrls;
   }
   
-
   getPokeTypeBG(type: string): string {
     switch (type.toLowerCase()) {
       case 'fire':

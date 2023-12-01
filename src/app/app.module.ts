@@ -7,8 +7,8 @@ import { AppComponent } from './app.component';
 import { UiComponentsModule } from './ui-components/ui-components.module';
 import { HomeComponent } from './pages/home/home.component';
 import { PokemonComponent } from './pages/pokemon/pokemon.component';
-import { ApiInterceptor } from './core/interceptor/api.interceptor';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ApiInterceptorService } from './core/interceptor/api.interceptor';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { PokemonDetailsComponent } from './pages/pokemon-details/pokemon-details.component';
 
 @NgModule({
@@ -23,14 +23,14 @@ import { PokemonDetailsComponent } from './pages/pokemon-details/pokemon-details
     AppRoutingModule,
     UiComponentsModule,
     BrowserAnimationsModule,
+    HttpClientModule,
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: ApiInterceptor,
-      multi: true
-    },
-    
+      useClass: ApiInterceptorService,
+      multi: true,
+    }
   ],
   bootstrap: [AppComponent]
 })

@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
 import { PokemonService } from 'src/app/core/services/pokemon/pokemon.service';
 
 @Component({
@@ -62,7 +63,7 @@ export class PokemonComponent {
 
     (this.pageNum >= 1) && this.router.navigate([], { relativeTo: this.route, queryParams: { ['p']: this.pageNum } }); 
     this.pokemon = [];
-    this.ps.getAllPokemon$(this.pageNum).then(
+    firstValueFrom(this.ps.getAllPokemon$(this.pageNum)).then(
       (res: any) => this.pokemon = res.data.pokemon_v2_pokemon
     ).finally(() => this.isFetching = false);
   }

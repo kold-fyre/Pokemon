@@ -1,0 +1,40 @@
+/* Add this CSS to your stylesheet */
+
+.poke-card {
+    border: 2px solid rgba(#000, .08);
+    transition: all 0.3s ease;
+    background-color: white;
+
+    img.poke-img {
+        z-index: 2;
+        width: 60%;
+        height: 60%;
+        transition: all .2s ease-in-out;
+        // filter: saturate(.2);
+    }
+}
+
+
+.poke-card:hover {
+    border: 2px solid #3c5aa6;
+    cursor: pointer;
+
+    img.poke-img {
+        transform: translateY(-20px) scale(1.1);
+        // filter: saturate(1);
+    }
+
+    transform: translateY(10px);
+
+    .card-title {
+        color: #3c5aa6;
+
+
+        &::after {
+            content: ' \f0da';
+            font-family: 'Font Awesome 5 Free';
+            font-size: 12px;
+        }
+
+    }
+}

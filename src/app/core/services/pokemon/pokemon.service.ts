@@ -1,13 +1,15 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PokemonService {
 
-  constructor() { }
+  private http: HttpClient = inject(HttpClient);
 
-  async getAllPokemon$(pageNum?: number): Promise<Response> {
+  getAllPokemon$(pageNum?: number): Observable<any> {
     const query = `
       query {
         pokemon_v2_pokemon(limit: 10, offset: ${pageNum ? (pageNum - 1) * 10 : 0}) {
@@ -24,14 +26,12 @@ export class PokemonService {
             sprites
           }
         }
-      }`; 
-    return await fetch('https://beta.pokeapi.co/graphql/v1beta', {
-      method: 'POST',
-      body: JSON.stringify({ query })
-    }).then((res) => res.json())
+      }`;
+
+    return this.http.post<any>('/pokemon', { query });
   }
 
-  async getPokemonById$(id: number): Promise<Response> {
+  getPokemonById$(id: number): Observable<any> {
     const query = `
       query {
         pokemon_v2_pokemon_by_pk(id: ${id}) {
@@ -59,14 +59,12 @@ export class PokemonService {
             }
           }
         }
-      }`; 
-    return await fetch('https://beta.pokeapi.co/graphql/v1beta', {
-      method: 'POST',
-      body: JSON.stringify({ query })
-    }).then((res) => res.json())
+      }`;
+
+    return this.http.post<any>('/pokemon', { query });
   }
 
-  async getPokemonBioById$(id: number): Promise<Response> {
+  getPokemonBioById$(id: number): Observable<any> {
     const query = `
       query species {
         pokemon_v2_pokemonspecies_by_pk(id: ${id}) {
@@ -74,15 +72,12 @@ export class PokemonService {
             flavor_text
           }
         }
-      }`
-    ;
-    return await fetch('https://beta.pokeapi.co/graphql/v1beta', {
-      method: 'POST',
-      body: JSON.stringify({ query })
-    }).then((res) => res.json())
+      }`;
+
+    return this.http.post<any>('/pokemon', { query });
   }
 
-  async getPokemonByName$(name: string, limit: number): Promise<Response> {
+  getPokemonByName$(name: string, limit: number): Observable<any> {
     const query = `
       query {
         pokemon_v2_pokemon(where: {name: {_regex: "^${name}"}}, limit: ${limit}) {
@@ -92,13 +87,8 @@ export class PokemonService {
             sprites
           }
         }
-      }`; 
-    return await fetch('https://beta.pokeapi.co/graphql/v1beta', {
-      method: 'POST',
-      body: JSON.stringify({ query })
-    }).then((res) => res.json())
+      }`;
+
+    return this.http.post<any>('/pokemon', { query });
   }
-
-
-
 }
