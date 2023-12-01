@@ -1,0 +1,106 @@
+<!-- {{ pokemon | json }} -->
+
+<div class="container">
+    <div class="row grid py-4" *ngIf="pokemon.length; else spinner">
+        
+        <div class="col-12 gap-3 col-gap-4 col-sm-6 col-lg-4 col-xl-3 mb-4" *ngFor="let poke of pokemon" (click)="view(poke.id)">
+            <div class="card poke-card">
+                <h4 class="text-body-tertiary opacity-25 ps-2 pt-2 position-absolute fw-bold"> #{{ poke.id }} </h4>
+
+                <img class="mx-auto my-0 mt-1 poke-img" 
+                    src="assets/pokemon/placeholder.png" 
+                    data-src="{{
+                        toJSON(poke.pokemon_v2_pokemonsprites[0].sprites)
+                        .other['official-artwork']
+                        .front_default
+                    }}"
+                    loading="lazy"
+                    [alt]="poke.id"
+                >
+                
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between">
+                        <div class="">
+                            <h6 class="card-title fw-bold m-0"> {{ poke.name | titlecase }} </h6>
+                        </div>
+                        
+                        <div class="">
+                            <span 
+                                class="ms-1 badge px-1 rounded-pill {{ getPokeTypeBG(type.pokemon_v2_type.name) }}" 
+                                *ngFor="let type of poke.pokemon_v2_pokemontypes"
+                            >   
+                                <img width="20" [src]="getTypeIcon(type.pokemon_v2_type.name)" alt="">
+                            </span>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <small class="card-text mt-2"> W: <b> {{ poke.weight / 10 }} kg  </b> </small>
+                        <small class="card-text mt-2"> H: <b> {{ poke.height / 10 }} m  </b> </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ========== Start pagination ========== -->
+        <div class="pagination p-0 d-flex flex-wrap gap-2 align-items-center justify-content-center mt-3">
+            <button type="button" class="btn btn-outline-dark" (click)="first()">
+                <span class="fa-solid fa-chevron-left"></span>
+                <span class="fa-solid fa-chevron-left"></span>
+            </button>
+
+            <button type="button" class="btn btn-outline-dark" (click)="prev()"> 
+                <span class="fa-solid fa-chevron-left me-2"></span> 
+                Prev 
+            </button>
+            
+            <button type="button" class="btn btn-secondary" disabled>
+                {{ pageNum }}
+            </button>
+            
+            <button type="button" class="btn btn-outline-dark" (click)="next()"> 
+                Next 
+                <span class="fa-solid fa-chevron-right ms-2"></span> 
+            </button>
+
+            <button type="button" class="btn btn-outline-dark" (click)="last()"> 
+                <span class="fa-solid fa-chevron-right"></span> 
+                <span class="fa-solid fa-chevron-right"></span> 
+            </button>
+        </div>
+        <!-- ========== End pagination ========== -->
+    </div>
+</div>
+
+
+
+<ng-template #spinner>
+    <div class="content-h d-flex align-items-center justify-content-center" *ngIf="isFetching; else error404">
+        <div class="d-flex justify-content-center align-items-center">
+            <div class="spinner-border text-dark"
+                role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+
+<ng-template #error404>
+    <div class="container my-5">
+        <div class="position-relative p-5 text-center text-muted bg-body border border-dashed rounded-5">
+            <!-- <button type="button" class="position-absolute top-0 end-0 p-3 m-3 btn-close bg-secondary bg-opacity-10 rounded-pill"></button> -->
+            <span class="fa-regular fa-face-surprise fs-1 mb-4"></span>
+            <h1 class="text-body-emphasis col-lg-4 mx-auto"> 
+                ... the end 
+            </h1>
+            <p class="col-lg-6 mx-auto mb-4">
+                Wow! Honestly didn't think anyone would make it here. 
+                <br>
+                I guess u have to reward you.
+            </p>
+            <button class="btn btn-{{ btnMessage.includes('lied') ? 'danger' : 'primary' }} px-5 mb-5" type="button" (click)="surprise()">
+                {{ btnMessage }}
+            </button>
+        </div>
+    </div>
+</ng-template>

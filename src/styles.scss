@@ -1,1 +1,34 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+body {
+    height: 100%;
+    background-color: rgba(#000, .01);
+}
+
+* {
+    font-family: 'Poppins';
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.w-fit {
+    width: fit-content;
+}
+
+.content-h {
+    height: calc(100vh - 120px);
+}
+
+a.nav-link {
+    box-shadow: none!important;
+}
+
+.accent {
+    color: #3c5aa6!important;
+
+    &:hover, &:focus {
+        color: #3c5aa6!important;
+    }
+}

@@ -1,0 +1,81 @@
+<header class="py-2 border-bottom bg-white">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a routerLink="/home" class="d-flex align-items-center me-lg-5 mb-2 mb-lg-0 link-body-emphasis text-decoration-none pointer">
+                <img class="" height="30" src="https://upload.wikimedia.org/wikipedia/commons/9/98/International_Pokémon_logo.svg" alt="">
+            </a>
+
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <!-- <li><a href="#" class="nav-link px-2 link-secondary"> Home </a></li> -->
+                <li class="pointer me-3">
+                    <a routerLink="/home" routerLinkActive="accent" class="nav-link fw-bold px-2 link-body-emphasis"> 
+                        Home
+                    </a>
+                </li>
+
+                <li class="pointer me-3">
+                    <a routerLink="/pokemon" routerLinkActive="accent" class="nav-link fw-bold px-2 link-body-emphasis"> 
+                        Pokémon List 
+                    </a>
+                </li>
+            </ul>
+
+            <div class="nav mx-auto mb-3 mb-lg-0">
+                <div class="d-flex align-items-center">
+                    <!-- <li class="p-0" *ngFor="let route of navHistory; index as i">
+                        <a class="nav-link p-0 pointer">
+                            <small class="fa-solid fa-minus mx-2" *ngIf="(navHistory.length > 1) && (i >= 1)"></small>
+                            <span class="badge bg-primary-subtle text-primary-emphasis badge-sm" [routerLink]="route.url">
+                                {{ route.url }} 
+                            </span>
+                        </a>
+                    </li> -->
+
+                    <span class="badge bg-none p-0" *ngFor="let data of navHistory() | async; index as i">
+                        <a class="p-0 pointer" [routerLink]="data.url">
+                            <small class="fa-solid fa-minus text-dark mx-2" *ngIf="i >= 1"></small>
+                            <span class="badge bg-none border badge-sm p-1" [routerLink]="data.url">
+                                <img class="m-0 p-0" width="25px" [src]="data.img" [alt]="data.id">
+                            </span>
+                        </a>
+                    </span>
+                </div>
+            </div>
+
+
+            <div class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 position-relative" role="search">
+                <input type="search" class="form-control" placeholder="Search..." aria-label="Search" [(ngModel)]="search" (keyup)="getPokemon(search)" (click)="clear()">
+
+                <div class="suggestions card text-start position-absolute w-100" *ngIf="search">
+                    <div class="card-body p-2 border-bottom d-flex align-items-center pointer" *ngFor="let poke of pokemon" (click)="view(poke.id)">
+                        <img class="me-2" [src]="
+                            toJSON(poke.pokemon_v2_pokemonsprites[0].sprites).versions
+                                ['generation-v']
+                                ['black-white']
+                                ['animated']
+                                ['front_default']
+                            ||
+                            toJSON(poke.pokemon_v2_pokemonsprites[0].sprites)
+                            .other['official-artwork']
+                            .front_default
+                        " alt="" width="50">
+
+                        
+                        <div class="d-grid">
+                            <p class="name card-text m-0 text-truncate w-auto"> {{ poke.name }} </p>
+                            <small class="card-text opacity-50"> #{{ poke.id }} </small>
+                        </div>
+                    </div>
+                    <div class="card-body p-0" *ngIf="pokemon.length >= 5">
+                        <div class="d-grid">
+                          <button type="button" class="btn btn-default btn-sm text-muted" routerLink="/pokemon" (click)="this.search=''"> 
+                            view all
+                            <span class="fa-solid fa-arrow-right ms-2"></span>
+                          </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>

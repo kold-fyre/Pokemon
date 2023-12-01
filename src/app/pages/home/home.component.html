@@ -1,0 +1,24 @@
+<div class="carousel content-h">
+    <ng-container *ngFor="let slide of slides; index as i">
+        <div class="slide position-absolute w-100" [@fadeInOut] *ngIf="i==activeIndex">
+            <div class="img" [style]="setBg(slide.img)">
+                <div class="position-absolute mx-0 bottom-0 px-3 pb-3 w-100">
+                    <div class="d-flex justify-content-center">
+                        <div class="dot opacity-25 m-0 rounded-circle mx-1 pointer" [class.opacity-100]="x===activeIndex" *ngFor="let dot of slides; index as x" (click)="activeIndex=x">
+                            &nbsp;
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center justify-content-between h-100 px-3">
+                    <button class="btn btn-light rounded-circle" (click)="prev()">
+                        <span class="fa-solid fa-arrow-left"></span>
+                    </button>
+    
+                    <button class="btn btn-light rounded-circle" (click)="next()">
+                        <span class="fa-solid fa-arrow-right"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</div>
